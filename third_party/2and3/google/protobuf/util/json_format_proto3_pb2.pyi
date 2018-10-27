@@ -11,6 +11,9 @@ from google.protobuf.internal.containers import (
     RepeatedCompositeFieldContainer,
     RepeatedScalarFieldContainer,
 )
+from google.protobuf.internal.enum_type_wrapper import (
+    EnumTypeWrapper,
+)
 from google.protobuf.message import (
     Message,
 )
@@ -45,29 +48,14 @@ from typing import (
     Text,
     Tuple,
     cast,
+    NewType,
 )
 
 
-class EnumType(int):
-
-    @classmethod
-    def Name(cls, number: int) -> bytes: ...
-
-    @classmethod
-    def Value(cls, name: bytes) -> EnumType: ...
-
-    @classmethod
-    def keys(cls) -> List[bytes]: ...
-
-    @classmethod
-    def values(cls) -> List[EnumType]: ...
-
-    @classmethod
-    def items(cls) -> List[Tuple[bytes, EnumType]]: ...
-
-
-FOO: EnumType
-BAR: EnumType
+_EnumType = NewType('_EnumType', int)
+EnumType: EnumTypeWrapper[_EnumType]
+FOO: _EnumType
+BAR: _EnumType
 
 
 class MessageType(Message):
@@ -91,7 +79,7 @@ class TestMessage(Message):
     double_value = ...  # type: float
     string_value = ...  # type: Text
     bytes_value = ...  # type: bytes
-    enum_value = ...  # type: EnumType
+    enum_value = ...  # type: _EnumType
     repeated_bool_value = ...  # type: RepeatedScalarFieldContainer[bool]
     repeated_int32_value = ...  # type: RepeatedScalarFieldContainer[int]
     repeated_int64_value = ...  # type: RepeatedScalarFieldContainer[int]
@@ -101,7 +89,7 @@ class TestMessage(Message):
     repeated_double_value = ...  # type: RepeatedScalarFieldContainer[float]
     repeated_string_value = ...  # type: RepeatedScalarFieldContainer[Text]
     repeated_bytes_value = ...  # type: RepeatedScalarFieldContainer[bytes]
-    repeated_enum_value = ...  # type: RepeatedScalarFieldContainer[EnumType]
+    repeated_enum_value = ...  # type: RepeatedScalarFieldContainer[_EnumType]
 
     @property
     def message_value(self) -> MessageType: ...
@@ -120,7 +108,7 @@ class TestMessage(Message):
                  double_value: Optional[float] = ...,
                  string_value: Optional[Text] = ...,
                  bytes_value: Optional[bytes] = ...,
-                 enum_value: Optional[EnumType] = ...,
+                 enum_value: Optional[_EnumType] = ...,
                  message_value: Optional[MessageType] = ...,
                  repeated_bool_value: Optional[Iterable[bool]] = ...,
                  repeated_int32_value: Optional[Iterable[int]] = ...,
@@ -131,7 +119,7 @@ class TestMessage(Message):
                  repeated_double_value: Optional[Iterable[float]] = ...,
                  repeated_string_value: Optional[Iterable[Text]] = ...,
                  repeated_bytes_value: Optional[Iterable[bytes]] = ...,
-                 repeated_enum_value: Optional[Iterable[EnumType]] = ...,
+                 repeated_enum_value: Optional[Iterable[_EnumType]] = ...,
                  repeated_message_value: Optional[Iterable[MessageType]] = ...,
                  ) -> None: ...
 
@@ -143,7 +131,7 @@ class TestOneof(Message):
     oneof_int32_value = ...  # type: int
     oneof_string_value = ...  # type: Text
     oneof_bytes_value = ...  # type: bytes
-    oneof_enum_value = ...  # type: EnumType
+    oneof_enum_value = ...  # type: _EnumType
 
     @property
     def oneof_message_value(self) -> MessageType: ...
@@ -152,7 +140,7 @@ class TestOneof(Message):
                  oneof_int32_value: Optional[int] = ...,
                  oneof_string_value: Optional[Text] = ...,
                  oneof_bytes_value: Optional[bytes] = ...,
-                 oneof_enum_value: Optional[EnumType] = ...,
+                 oneof_enum_value: Optional[_EnumType] = ...,
                  oneof_message_value: Optional[MessageType] = ...,
                  ) -> None: ...
 
@@ -645,14 +633,14 @@ class TestExtensions(Message):
 
 
 class TestEnumValue(Message):
-    enum_value1 = ...  # type: EnumType
-    enum_value2 = ...  # type: EnumType
-    enum_value3 = ...  # type: EnumType
+    enum_value1 = ...  # type: _EnumType
+    enum_value2 = ...  # type: _EnumType
+    enum_value3 = ...  # type: _EnumType
 
     def __init__(self,
-                 enum_value1: Optional[EnumType] = ...,
-                 enum_value2: Optional[EnumType] = ...,
-                 enum_value3: Optional[EnumType] = ...,
+                 enum_value1: Optional[_EnumType] = ...,
+                 enum_value2: Optional[_EnumType] = ...,
+                 enum_value3: Optional[_EnumType] = ...,
                  ) -> None: ...
 
     @classmethod

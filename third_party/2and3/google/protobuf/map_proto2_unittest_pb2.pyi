@@ -1,8 +1,11 @@
+from google.protobuf.internal.enum_type_wrapper import (
+    EnumTypeWrapper,
+)
 from google.protobuf.message import (
     Message,
 )
 from google.protobuf.unittest_import_pb2 import (
-    ImportEnumForMap,
+    _ImportEnumForMap,
 )
 from typing import (
     List,
@@ -12,61 +15,33 @@ from typing import (
     Text,
     Tuple,
     cast,
+    NewType,
 )
 
 
-class Proto2MapEnum(int):
+_Proto2MapEnum = NewType('_Proto2MapEnum', int)
+Proto2MapEnum: EnumTypeWrapper[_Proto2MapEnum]
+PROTO2_MAP_ENUM_FOO: _Proto2MapEnum
+PROTO2_MAP_ENUM_BAR: _Proto2MapEnum
+PROTO2_MAP_ENUM_BAZ: _Proto2MapEnum
 
-    @classmethod
-    def Name(cls, number: int) -> bytes: ...
-
-    @classmethod
-    def Value(cls, name: bytes) -> Proto2MapEnum: ...
-
-    @classmethod
-    def keys(cls) -> List[bytes]: ...
-
-    @classmethod
-    def values(cls) -> List[Proto2MapEnum]: ...
-
-    @classmethod
-    def items(cls) -> List[Tuple[bytes, Proto2MapEnum]]: ...
-PROTO2_MAP_ENUM_FOO: Proto2MapEnum
-PROTO2_MAP_ENUM_BAR: Proto2MapEnum
-PROTO2_MAP_ENUM_BAZ: Proto2MapEnum
-
-
-class Proto2MapEnumPlusExtra(int):
-
-    @classmethod
-    def Name(cls, number: int) -> bytes: ...
-
-    @classmethod
-    def Value(cls, name: bytes) -> Proto2MapEnumPlusExtra: ...
-
-    @classmethod
-    def keys(cls) -> List[bytes]: ...
-
-    @classmethod
-    def values(cls) -> List[Proto2MapEnumPlusExtra]: ...
-
-    @classmethod
-    def items(cls) -> List[Tuple[bytes, Proto2MapEnumPlusExtra]]: ...
-E_PROTO2_MAP_ENUM_FOO: Proto2MapEnumPlusExtra
-E_PROTO2_MAP_ENUM_BAR: Proto2MapEnumPlusExtra
-E_PROTO2_MAP_ENUM_BAZ: Proto2MapEnumPlusExtra
-E_PROTO2_MAP_ENUM_EXTRA: Proto2MapEnumPlusExtra
+_Proto2MapEnumPlusExtra = NewType('_Proto2MapEnumPlusExtra', int)
+Proto2MapEnumPlusExtra: EnumTypeWrapper[_Proto2MapEnumPlusExtra]
+E_PROTO2_MAP_ENUM_FOO: _Proto2MapEnumPlusExtra
+E_PROTO2_MAP_ENUM_BAR: _Proto2MapEnumPlusExtra
+E_PROTO2_MAP_ENUM_BAZ: _Proto2MapEnumPlusExtra
+E_PROTO2_MAP_ENUM_EXTRA: _Proto2MapEnumPlusExtra
 
 
 class TestEnumMap(Message):
 
     class KnownMapFieldEntry(Message):
         key = ...  # type: int
-        value = ...  # type: Proto2MapEnum
+        value = ...  # type: _Proto2MapEnum
 
         def __init__(self,
                      key: Optional[int] = ...,
-                     value: Optional[Proto2MapEnum] = ...,
+                     value: Optional[_Proto2MapEnum] = ...,
                      ) -> None: ...
 
         @classmethod
@@ -74,25 +49,25 @@ class TestEnumMap(Message):
 
     class UnknownMapFieldEntry(Message):
         key = ...  # type: int
-        value = ...  # type: Proto2MapEnum
+        value = ...  # type: _Proto2MapEnum
 
         def __init__(self,
                      key: Optional[int] = ...,
-                     value: Optional[Proto2MapEnum] = ...,
+                     value: Optional[_Proto2MapEnum] = ...,
                      ) -> None: ...
 
         @classmethod
         def FromString(cls, s: bytes) -> TestEnumMap.UnknownMapFieldEntry: ...
 
     @property
-    def known_map_field(self) -> MutableMapping[int, Proto2MapEnum]: ...
+    def known_map_field(self) -> MutableMapping[int, _Proto2MapEnum]: ...
 
     @property
-    def unknown_map_field(self) -> MutableMapping[int, Proto2MapEnum]: ...
+    def unknown_map_field(self) -> MutableMapping[int, _Proto2MapEnum]: ...
 
     def __init__(self,
-                 known_map_field: Optional[Mapping[int, Proto2MapEnum]]=...,
-                 unknown_map_field: Optional[Mapping[int, Proto2MapEnum]]=...,
+                 known_map_field: Optional[Mapping[int, _Proto2MapEnum]]=...,
+                 unknown_map_field: Optional[Mapping[int, _Proto2MapEnum]]=...,
                  ) -> None: ...
 
     @classmethod
@@ -103,11 +78,11 @@ class TestEnumMapPlusExtra(Message):
 
     class KnownMapFieldEntry(Message):
         key = ...  # type: int
-        value = ...  # type: Proto2MapEnumPlusExtra
+        value = ...  # type: _Proto2MapEnumPlusExtra
 
         def __init__(self,
                      key: Optional[int] = ...,
-                     value: Optional[Proto2MapEnumPlusExtra] = ...,
+                     value: Optional[_Proto2MapEnumPlusExtra] = ...,
                      ) -> None: ...
 
         @classmethod
@@ -115,25 +90,25 @@ class TestEnumMapPlusExtra(Message):
 
     class UnknownMapFieldEntry(Message):
         key = ...  # type: int
-        value = ...  # type: Proto2MapEnumPlusExtra
+        value = ...  # type: _Proto2MapEnumPlusExtra
 
         def __init__(self,
                      key: Optional[int] = ...,
-                     value: Optional[Proto2MapEnumPlusExtra] = ...,
+                     value: Optional[_Proto2MapEnumPlusExtra] = ...,
                      ) -> None: ...
 
         @classmethod
         def FromString(cls, s: bytes) -> TestEnumMapPlusExtra.UnknownMapFieldEntry: ...
 
     @property
-    def known_map_field(self) -> MutableMapping[int, Proto2MapEnumPlusExtra]: ...
+    def known_map_field(self) -> MutableMapping[int, _Proto2MapEnumPlusExtra]: ...
 
     @property
-    def unknown_map_field(self) -> MutableMapping[int, Proto2MapEnumPlusExtra]: ...
+    def unknown_map_field(self) -> MutableMapping[int, _Proto2MapEnumPlusExtra]: ...
 
     def __init__(self,
-                 known_map_field: Optional[Mapping[int, Proto2MapEnumPlusExtra]]=...,
-                 unknown_map_field: Optional[Mapping[int, Proto2MapEnumPlusExtra]]=...,
+                 known_map_field: Optional[Mapping[int, _Proto2MapEnumPlusExtra]]=...,
+                 unknown_map_field: Optional[Mapping[int, _Proto2MapEnumPlusExtra]]=...,
                  ) -> None: ...
 
     @classmethod
@@ -144,21 +119,21 @@ class TestImportEnumMap(Message):
 
     class ImportEnumAmpEntry(Message):
         key = ...  # type: int
-        value = ...  # type: ImportEnumForMap
+        value = ...  # type: _ImportEnumForMap
 
         def __init__(self,
                      key: Optional[int] = ...,
-                     value: Optional[ImportEnumForMap] = ...,
+                     value: Optional[_ImportEnumForMap] = ...,
                      ) -> None: ...
 
         @classmethod
         def FromString(cls, s: bytes) -> TestImportEnumMap.ImportEnumAmpEntry: ...
 
     @property
-    def import_enum_amp(self) -> MutableMapping[int, ImportEnumForMap]: ...
+    def import_enum_amp(self) -> MutableMapping[int, _ImportEnumForMap]: ...
 
     def __init__(self,
-                 import_enum_amp: Optional[Mapping[int, ImportEnumForMap]]=...,
+                 import_enum_amp: Optional[Mapping[int, _ImportEnumForMap]]=...,
                  ) -> None: ...
 
     @classmethod

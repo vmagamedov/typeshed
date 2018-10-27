@@ -2,11 +2,14 @@ from google.protobuf.internal.containers import (
     RepeatedCompositeFieldContainer,
     RepeatedScalarFieldContainer,
 )
+from google.protobuf.internal.enum_type_wrapper import (
+    EnumTypeWrapper,
+)
 from google.protobuf.message import (
     Message,
 )
 from google.protobuf.unittest_import_pb2 import (
-    ImportEnum,
+    _ImportEnum,
     ImportMessage,
 )
 from google.protobuf.unittest_import_public_pb2 import (
@@ -21,101 +24,42 @@ from typing import (
     Text,
     Tuple,
     cast,
+    NewType,
 )
 
+_ForeignEnum = NewType('_ForeignEnum', int)
+ForeignEnum: EnumTypeWrapper[_ForeignEnum]
+FOREIGN_FOO: _ForeignEnum
+FOREIGN_BAR: _ForeignEnum
+FOREIGN_BAZ: _ForeignEnum
 
-class ForeignEnum(int):
-    @classmethod
-    def Name(cls, number: int) -> bytes: ...
+_TestEnumWithDupValue = NewType('_TestEnumWithDupValue', int)
+TestEnumWithDupValue: EnumTypeWrapper[_TestEnumWithDupValue]
+FOO1: _TestEnumWithDupValue
+BAR1: _TestEnumWithDupValue
+BAZ: _TestEnumWithDupValue
+FOO2: _TestEnumWithDupValue
+BAR2: _TestEnumWithDupValue
 
-    @classmethod
-    def Value(cls, name: bytes) -> ForeignEnum: ...
+_TestSparseEnum = NewType('_TestSparseEnum', int)
+TestSparseEnum: EnumTypeWrapper[_TestSparseEnum]
+SPARSE_A: _TestSparseEnum
+SPARSE_B: _TestSparseEnum
+SPARSE_C: _TestSparseEnum
+SPARSE_D: _TestSparseEnum
+SPARSE_E: _TestSparseEnum
+SPARSE_F: _TestSparseEnum
+SPARSE_G: _TestSparseEnum
 
-    @classmethod
-    def keys(cls) -> List[bytes]: ...
-
-    @classmethod
-    def values(cls) -> List[ForeignEnum]: ...
-
-    @classmethod
-    def items(cls) -> List[Tuple[bytes, ForeignEnum]]: ...
-
-
-FOREIGN_FOO: ForeignEnum
-FOREIGN_BAR: ForeignEnum
-FOREIGN_BAZ: ForeignEnum
-
-
-class TestEnumWithDupValue(int):
-    @classmethod
-    def Name(cls, number: int) -> bytes: ...
-
-    @classmethod
-    def Value(cls, name: bytes) -> TestEnumWithDupValue: ...
-
-    @classmethod
-    def keys(cls) -> List[bytes]: ...
-
-    @classmethod
-    def values(cls) -> List[TestEnumWithDupValue]: ...
-
-    @classmethod
-    def items(cls) -> List[Tuple[bytes, TestEnumWithDupValue]]: ...
-
-
-FOO1: TestEnumWithDupValue
-BAR1: TestEnumWithDupValue
-BAZ: TestEnumWithDupValue
-FOO2: TestEnumWithDupValue
-BAR2: TestEnumWithDupValue
-
-
-class TestSparseEnum(int):
-    @classmethod
-    def Name(cls, number: int) -> bytes: ...
-
-    @classmethod
-    def Value(cls, name: bytes) -> TestSparseEnum: ...
-
-    @classmethod
-    def keys(cls) -> List[bytes]: ...
-
-    @classmethod
-    def values(cls) -> List[TestSparseEnum]: ...
-
-    @classmethod
-    def items(cls) -> List[Tuple[bytes, TestSparseEnum]]: ...
-
-
-SPARSE_A: TestSparseEnum
-SPARSE_B: TestSparseEnum
-SPARSE_C: TestSparseEnum
-SPARSE_D: TestSparseEnum
-SPARSE_E: TestSparseEnum
-SPARSE_F: TestSparseEnum
-SPARSE_G: TestSparseEnum
+_TestAllTypes_NestedEnum = NewType('_TestAllTypes_NestedEnum', int)
 
 
 class TestAllTypes(Message):
-    class NestedEnum(int):
-        @classmethod
-        def Name(cls, number: int) -> bytes: ...
-
-        @classmethod
-        def Value(cls, name: bytes) -> TestAllTypes.NestedEnum: ...
-
-        @classmethod
-        def keys(cls) -> List[bytes]: ...
-
-        @classmethod
-        def values(cls) -> List[TestAllTypes.NestedEnum]: ...
-
-        @classmethod
-        def items(cls) -> List[Tuple[bytes, TestAllTypes.NestedEnum]]: ...
-    FOO: NestedEnum
-    BAR: NestedEnum
-    BAZ: NestedEnum
-    NEG: NestedEnum
+    NestedEnum: EnumTypeWrapper[_TestAllTypes_NestedEnum]
+    FOO: _TestAllTypes_NestedEnum
+    BAR: _TestAllTypes_NestedEnum
+    BAZ: _TestAllTypes_NestedEnum
+    NEG: _TestAllTypes_NestedEnum
 
     class NestedMessage(Message):
         bb = ...  # type: int
@@ -161,9 +105,9 @@ class TestAllTypes(Message):
     optional_bool = ...  # type: bool
     optional_string = ...  # type: Text
     optional_bytes = ...  # type: bytes
-    optional_nested_enum = ...  # type: TestAllTypes.NestedEnum
-    optional_foreign_enum = ...  # type: ForeignEnum
-    optional_import_enum = ...  # type: ImportEnum
+    optional_nested_enum = ...  # type: _TestAllTypes_NestedEnum
+    optional_foreign_enum = ...  # type: _ForeignEnum
+    optional_import_enum = ...  # type: _ImportEnum
     optional_string_piece = ...  # type: Text
     optional_cord = ...  # type: Text
     repeated_int32 = ...  # type: RepeatedScalarFieldContainer[int]
@@ -181,9 +125,9 @@ class TestAllTypes(Message):
     repeated_bool = ...  # type: RepeatedScalarFieldContainer[bool]
     repeated_string = ...  # type: RepeatedScalarFieldContainer[Text]
     repeated_bytes = ...  # type: RepeatedScalarFieldContainer[bytes]
-    repeated_nested_enum = ...  # type: RepeatedScalarFieldContainer[TestAllTypes.NestedEnum]
-    repeated_foreign_enum = ...  # type: RepeatedScalarFieldContainer[ForeignEnum]
-    repeated_import_enum = ...  # type: RepeatedScalarFieldContainer[ImportEnum]
+    repeated_nested_enum = ...  # type: RepeatedScalarFieldContainer[_TestAllTypes_NestedEnum]
+    repeated_foreign_enum = ...  # type: RepeatedScalarFieldContainer[_ForeignEnum]
+    repeated_import_enum = ...  # type: RepeatedScalarFieldContainer[_ImportEnum]
     repeated_string_piece = ...  # type: RepeatedScalarFieldContainer[Text]
     repeated_cord = ...  # type: RepeatedScalarFieldContainer[Text]
     default_int32 = ...  # type: int
@@ -201,9 +145,9 @@ class TestAllTypes(Message):
     default_bool = ...  # type: bool
     default_string = ...  # type: Text
     default_bytes = ...  # type: bytes
-    default_nested_enum = ...  # type: TestAllTypes.NestedEnum
-    default_foreign_enum = ...  # type: ForeignEnum
-    default_import_enum = ...  # type: ImportEnum
+    default_nested_enum = ...  # type: _TestAllTypes_NestedEnum
+    default_foreign_enum = ...  # type: _ForeignEnum
+    default_import_enum = ...  # type: _ImportEnum
     default_string_piece = ...  # type: Text
     default_cord = ...  # type: Text
     oneof_uint32 = ...  # type: int
@@ -271,9 +215,9 @@ class TestAllTypes(Message):
                  optional_nested_message: Optional[TestAllTypes.NestedMessage] = ...,
                  optional_foreign_message: Optional[ForeignMessage] = ...,
                  optional_import_message: Optional[ImportMessage] = ...,
-                 optional_nested_enum: Optional[TestAllTypes.NestedEnum] = ...,
-                 optional_foreign_enum: Optional[ForeignEnum] = ...,
-                 optional_import_enum: Optional[ImportEnum] = ...,
+                 optional_nested_enum: Optional[_TestAllTypes_NestedEnum] = ...,
+                 optional_foreign_enum: Optional[_ForeignEnum] = ...,
+                 optional_import_enum: Optional[_ImportEnum] = ...,
                  optional_string_piece: Optional[Text] = ...,
                  optional_cord: Optional[Text] = ...,
                  optional_public_import_message: Optional[PublicImportMessage] = ...,
@@ -297,9 +241,9 @@ class TestAllTypes(Message):
                  repeated_nested_message: Optional[Iterable[TestAllTypes.NestedMessage]] = ...,
                  repeated_foreign_message: Optional[Iterable[ForeignMessage]] = ...,
                  repeated_import_message: Optional[Iterable[ImportMessage]] = ...,
-                 repeated_nested_enum: Optional[Iterable[TestAllTypes.NestedEnum]] = ...,
-                 repeated_foreign_enum: Optional[Iterable[ForeignEnum]] = ...,
-                 repeated_import_enum: Optional[Iterable[ImportEnum]] = ...,
+                 repeated_nested_enum: Optional[Iterable[_TestAllTypes_NestedEnum]] = ...,
+                 repeated_foreign_enum: Optional[Iterable[_ForeignEnum]] = ...,
+                 repeated_import_enum: Optional[Iterable[_ImportEnum]] = ...,
                  repeated_string_piece: Optional[Iterable[Text]] = ...,
                  repeated_cord: Optional[Iterable[Text]] = ...,
                  repeated_lazy_message: Optional[Iterable[TestAllTypes.NestedMessage]] = ...,
@@ -318,9 +262,9 @@ class TestAllTypes(Message):
                  default_bool: Optional[bool] = ...,
                  default_string: Optional[Text] = ...,
                  default_bytes: Optional[bytes] = ...,
-                 default_nested_enum: Optional[TestAllTypes.NestedEnum] = ...,
-                 default_foreign_enum: Optional[ForeignEnum] = ...,
-                 default_import_enum: Optional[ImportEnum] = ...,
+                 default_nested_enum: Optional[_TestAllTypes_NestedEnum] = ...,
+                 default_foreign_enum: Optional[_ForeignEnum] = ...,
+                 default_import_enum: Optional[_ImportEnum] = ...,
                  default_string_piece: Optional[Text] = ...,
                  default_cord: Optional[Text] = ...,
                  oneof_uint32: Optional[int] = ...,
@@ -440,14 +384,14 @@ class TestGroup(Message):
 
         @classmethod
         def FromString(cls, s: bytes) -> TestGroup.OptionalGroup: ...
-    optional_foreign_enum = ...  # type: ForeignEnum
+    optional_foreign_enum = ...  # type: _ForeignEnum
 
     @property
     def optionalgroup(self) -> TestGroup.OptionalGroup: ...
 
     def __init__(self,
                  optionalgroup: Optional[TestGroup.OptionalGroup] = ...,
-                 optional_foreign_enum: Optional[ForeignEnum] = ...,
+                 optional_foreign_enum: Optional[_ForeignEnum] = ...,
                  ) -> None: ...
 
     @classmethod
@@ -856,12 +800,12 @@ class TestNestedMessageHasBits(Message):
 class TestCamelCaseFieldNames(Message):
     PrimitiveField = ...  # type: int
     StringField = ...  # type: Text
-    EnumField = ...  # type: ForeignEnum
+    EnumField = ...  # type: _ForeignEnum
     StringPieceField = ...  # type: Text
     CordField = ...  # type: Text
     RepeatedPrimitiveField = ...  # type: RepeatedScalarFieldContainer[int]
     RepeatedStringField = ...  # type: RepeatedScalarFieldContainer[Text]
-    RepeatedEnumField = ...  # type: RepeatedScalarFieldContainer[ForeignEnum]
+    RepeatedEnumField = ...  # type: RepeatedScalarFieldContainer[_ForeignEnum]
     RepeatedStringPieceField = ...  # type: RepeatedScalarFieldContainer[Text]
     RepeatedCordField = ...  # type: RepeatedScalarFieldContainer[Text]
 
@@ -875,13 +819,13 @@ class TestCamelCaseFieldNames(Message):
     def __init__(self,
                  PrimitiveField: Optional[int] = ...,
                  StringField: Optional[Text] = ...,
-                 EnumField: Optional[ForeignEnum] = ...,
+                 EnumField: Optional[_ForeignEnum] = ...,
                  MessageField: Optional[ForeignMessage] = ...,
                  StringPieceField: Optional[Text] = ...,
                  CordField: Optional[Text] = ...,
                  RepeatedPrimitiveField: Optional[Iterable[int]] = ...,
                  RepeatedStringField: Optional[Iterable[Text]] = ...,
-                 RepeatedEnumField: Optional[Iterable[ForeignEnum]] = ...,
+                 RepeatedEnumField: Optional[Iterable[_ForeignEnum]] = ...,
                  RepeatedMessageField: Optional[Iterable[ForeignMessage]] = ...,
                  RepeatedStringPieceField: Optional[Iterable[Text]] = ...,
                  RepeatedCordField: Optional[Iterable[Text]] = ...,
@@ -1017,10 +961,10 @@ class TestExtremeDefaultValues(Message):
 
 
 class SparseEnumMessage(Message):
-    sparse_enum = ...  # type: TestSparseEnum
+    sparse_enum = ...  # type: _TestSparseEnum
 
     def __init__(self,
-                 sparse_enum: Optional[TestSparseEnum] = ...,
+                 sparse_enum: Optional[_TestSparseEnum] = ...,
                  ) -> None: ...
 
     @classmethod
@@ -1191,25 +1135,14 @@ class TestOneofBackwardsCompatible(Message):
     def FromString(cls, s: bytes) -> TestOneofBackwardsCompatible: ...
 
 
+_TestOneof2_NestedEnum = NewType('_TestOneof2_NestedEnum', int)
+
+
 class TestOneof2(Message):
-    class NestedEnum(int):
-        @classmethod
-        def Name(cls, number: int) -> bytes: ...
-
-        @classmethod
-        def Value(cls, name: bytes) -> TestOneof2.NestedEnum: ...
-
-        @classmethod
-        def keys(cls) -> List[bytes]: ...
-
-        @classmethod
-        def values(cls) -> List[TestOneof2.NestedEnum]: ...
-
-        @classmethod
-        def items(cls) -> List[Tuple[bytes, TestOneof2.NestedEnum]]: ...
-    FOO: NestedEnum
-    BAR: NestedEnum
-    BAZ: NestedEnum
+    NestedEnum: EnumTypeWrapper[_TestOneof2_NestedEnum]
+    FOO: _TestOneof2_NestedEnum
+    BAR: _TestOneof2_NestedEnum
+    BAZ: _TestOneof2_NestedEnum
 
     class FooGroup(Message):
         a = ...  # type: int
@@ -1239,13 +1172,13 @@ class TestOneof2(Message):
     foo_cord = ...  # type: Text
     foo_string_piece = ...  # type: Text
     foo_bytes = ...  # type: bytes
-    foo_enum = ...  # type: TestOneof2.NestedEnum
+    foo_enum = ...  # type: _TestOneof2_NestedEnum
     bar_int = ...  # type: int
     bar_string = ...  # type: Text
     bar_cord = ...  # type: Text
     bar_string_piece = ...  # type: Text
     bar_bytes = ...  # type: bytes
-    bar_enum = ...  # type: TestOneof2.NestedEnum
+    bar_enum = ...  # type: _TestOneof2_NestedEnum
     baz_int = ...  # type: int
     baz_string = ...  # type: Text
 
@@ -1264,7 +1197,7 @@ class TestOneof2(Message):
                  foo_cord: Optional[Text] = ...,
                  foo_string_piece: Optional[Text] = ...,
                  foo_bytes: Optional[bytes] = ...,
-                 foo_enum: Optional[TestOneof2.NestedEnum] = ...,
+                 foo_enum: Optional[_TestOneof2_NestedEnum] = ...,
                  foo_message: Optional[TestOneof2.NestedMessage] = ...,
                  foogroup: Optional[TestOneof2.FooGroup] = ...,
                  foo_lazy_message: Optional[TestOneof2.NestedMessage] = ...,
@@ -1273,7 +1206,7 @@ class TestOneof2(Message):
                  bar_cord: Optional[Text] = ...,
                  bar_string_piece: Optional[Text] = ...,
                  bar_bytes: Optional[bytes] = ...,
-                 bar_enum: Optional[TestOneof2.NestedEnum] = ...,
+                 bar_enum: Optional[_TestOneof2_NestedEnum] = ...,
                  baz_int: Optional[int] = ...,
                  baz_string: Optional[Text] = ...,
                  ) -> None: ...
@@ -1322,7 +1255,7 @@ class TestPackedTypes(Message):
     packed_float = ...  # type: RepeatedScalarFieldContainer[float]
     packed_double = ...  # type: RepeatedScalarFieldContainer[float]
     packed_bool = ...  # type: RepeatedScalarFieldContainer[bool]
-    packed_enum = ...  # type: RepeatedScalarFieldContainer[ForeignEnum]
+    packed_enum = ...  # type: RepeatedScalarFieldContainer[_ForeignEnum]
 
     def __init__(self,
                  packed_int32: Optional[Iterable[int]] = ...,
@@ -1338,7 +1271,7 @@ class TestPackedTypes(Message):
                  packed_float: Optional[Iterable[float]] = ...,
                  packed_double: Optional[Iterable[float]] = ...,
                  packed_bool: Optional[Iterable[bool]] = ...,
-                 packed_enum: Optional[Iterable[ForeignEnum]] = ...,
+                 packed_enum: Optional[Iterable[_ForeignEnum]] = ...,
                  ) -> None: ...
 
     @classmethod
@@ -1359,7 +1292,7 @@ class TestUnpackedTypes(Message):
     unpacked_float = ...  # type: RepeatedScalarFieldContainer[float]
     unpacked_double = ...  # type: RepeatedScalarFieldContainer[float]
     unpacked_bool = ...  # type: RepeatedScalarFieldContainer[bool]
-    unpacked_enum = ...  # type: RepeatedScalarFieldContainer[ForeignEnum]
+    unpacked_enum = ...  # type: RepeatedScalarFieldContainer[_ForeignEnum]
 
     def __init__(self,
                  unpacked_int32: Optional[Iterable[int]] = ...,
@@ -1375,7 +1308,7 @@ class TestUnpackedTypes(Message):
                  unpacked_float: Optional[Iterable[float]] = ...,
                  unpacked_double: Optional[Iterable[float]] = ...,
                  unpacked_bool: Optional[Iterable[bool]] = ...,
-                 unpacked_enum: Optional[Iterable[ForeignEnum]] = ...,
+                 unpacked_enum: Optional[Iterable[_ForeignEnum]] = ...,
                  ) -> None: ...
 
     @classmethod
@@ -1400,26 +1333,14 @@ class TestUnpackedExtensions(Message):
     def FromString(cls, s: bytes) -> TestUnpackedExtensions: ...
 
 
+_TestDynamicExtensions_DynamicEnumType = NewType('_TestDynamicExtensions_DynamicEnumType', int)
+
+
 class TestDynamicExtensions(Message):
-    class DynamicEnumType(int):
-        @classmethod
-        def Name(cls, number: int) -> bytes: ...
-
-        @classmethod
-        def Value(cls, name: bytes) -> TestDynamicExtensions.DynamicEnumType: ...
-
-        @classmethod
-        def keys(cls) -> List[bytes]: ...
-
-        @classmethod
-        def values(cls) -> List[TestDynamicExtensions.DynamicEnumType]: ...
-
-        @classmethod
-        def items(cls) -> List[Tuple[bytes,
-                                     TestDynamicExtensions.DynamicEnumType]]: ...
-    DYNAMIC_FOO: DynamicEnumType
-    DYNAMIC_BAR: DynamicEnumType
-    DYNAMIC_BAZ: DynamicEnumType
+    DynamicEnumType: EnumTypeWrapper[_TestDynamicExtensions_DynamicEnumType]
+    DYNAMIC_FOO: _TestDynamicExtensions_DynamicEnumType
+    DYNAMIC_BAR: _TestDynamicExtensions_DynamicEnumType
+    DYNAMIC_BAZ: _TestDynamicExtensions_DynamicEnumType
 
     class DynamicMessageType(Message):
         dynamic_field = ...  # type: int
@@ -1432,8 +1353,8 @@ class TestDynamicExtensions(Message):
         def FromString(
             cls, s: bytes) -> TestDynamicExtensions.DynamicMessageType: ...
     scalar_extension = ...  # type: int
-    enum_extension = ...  # type: ForeignEnum
-    dynamic_enum_extension = ...  # type: TestDynamicExtensions.DynamicEnumType
+    enum_extension = ...  # type: _ForeignEnum
+    dynamic_enum_extension = ...  # type: _TestDynamicExtensions_DynamicEnumType
     repeated_extension = ...  # type: RepeatedScalarFieldContainer[Text]
     packed_extension = ...  # type: RepeatedScalarFieldContainer[int]
 
@@ -1446,8 +1367,8 @@ class TestDynamicExtensions(Message):
 
     def __init__(self,
                  scalar_extension: Optional[int] = ...,
-                 enum_extension: Optional[ForeignEnum] = ...,
-                 dynamic_enum_extension: Optional[TestDynamicExtensions.DynamicEnumType] = ...,
+                 enum_extension: Optional[_ForeignEnum] = ...,
+                 dynamic_enum_extension: Optional[_TestDynamicExtensions_DynamicEnumType] = ...,
                  message_extension: Optional[ForeignMessage] = ...,
                  dynamic_message_extension: Optional[TestDynamicExtensions.DynamicMessageType] = ...,
                  repeated_extension: Optional[Iterable[Text]] = ...,
@@ -1710,7 +1631,7 @@ class TestHugeFieldNumbers(Message):
     fixed_32 = ...  # type: int
     repeated_int32 = ...  # type: RepeatedScalarFieldContainer[int]
     packed_int32 = ...  # type: RepeatedScalarFieldContainer[int]
-    optional_enum = ...  # type: ForeignEnum
+    optional_enum = ...  # type: _ForeignEnum
     optional_string = ...  # type: Text
     optional_bytes = ...  # type: bytes
     oneof_uint32 = ...  # type: int
@@ -1734,7 +1655,7 @@ class TestHugeFieldNumbers(Message):
                  fixed_32: Optional[int] = ...,
                  repeated_int32: Optional[Iterable[int]] = ...,
                  packed_int32: Optional[Iterable[int]] = ...,
-                 optional_enum: Optional[ForeignEnum] = ...,
+                 optional_enum: Optional[_ForeignEnum] = ...,
                  optional_string: Optional[Text] = ...,
                  optional_bytes: Optional[bytes] = ...,
                  optional_message: Optional[ForeignMessage] = ...,

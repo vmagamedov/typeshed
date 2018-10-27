@@ -9,7 +9,7 @@ from google.protobuf.source_context_pb2 import (
 )
 from google.protobuf.type_pb2 import (
     Option,
-    Syntax,
+    _Syntax,
 )
 from typing import (
     Iterable,
@@ -21,7 +21,7 @@ from typing import (
 class Api(Message):
     name = ...  # type: Text
     version = ...  # type: Text
-    syntax = ...  # type: Syntax
+    syntax = ...  # type: _Syntax
 
     @property
     def methods(self) -> RepeatedCompositeFieldContainer[Method]: ...
@@ -42,7 +42,7 @@ class Api(Message):
                  version: Optional[Text] = ...,
                  source_context: Optional[SourceContext] = ...,
                  mixins: Optional[Iterable[Mixin]] = ...,
-                 syntax: Optional[Syntax] = ...,
+                 syntax: Optional[_Syntax] = ...,
                  ) -> None: ...
 
     @classmethod
@@ -55,7 +55,7 @@ class Method(Message):
     request_streaming = ...  # type: bool
     response_type_url = ...  # type: Text
     response_streaming = ...  # type: bool
-    syntax = ...  # type: Syntax
+    syntax = ...  # type: _Syntax
 
     @property
     def options(self) -> RepeatedCompositeFieldContainer[Option]: ...
@@ -67,7 +67,7 @@ class Method(Message):
                  response_type_url: Optional[Text] = ...,
                  response_streaming: Optional[bool] = ...,
                  options: Optional[Iterable[Option]] = ...,
-                 syntax: Optional[Syntax] = ...,
+                 syntax: Optional[_Syntax] = ...,
                  ) -> None: ...
 
     @classmethod

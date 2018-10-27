@@ -1,3 +1,6 @@
+from google.protobuf.internal.enum_type_wrapper import (
+    EnumTypeWrapper,
+)
 from google.protobuf.message import (
     Message,
 )
@@ -6,27 +9,12 @@ from typing import (
     Optional,
     Tuple,
     cast,
+    NewType,
 )
 
-
-class TestEnum(int):
-    @classmethod
-    def Name(cls, number: int) -> bytes: ...
-
-    @classmethod
-    def Value(cls, name: bytes) -> TestEnum: ...
-
-    @classmethod
-    def keys(cls) -> List[bytes]: ...
-
-    @classmethod
-    def values(cls) -> List[TestEnum]: ...
-
-    @classmethod
-    def items(cls) -> List[Tuple[bytes, TestEnum]]: ...
-
-
-FOO: TestEnum
+_TestEnum = NewType('_TestEnum', int)
+TestEnum: EnumTypeWrapper[_TestEnum]
+FOO: _TestEnum
 
 
 class TestMessage(Message):

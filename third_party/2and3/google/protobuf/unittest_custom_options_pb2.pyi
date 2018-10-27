@@ -1,6 +1,9 @@
 from google.protobuf.descriptor_pb2 import (
     FileOptions,
 )
+from google.protobuf.internal.enum_type_wrapper import (
+    EnumTypeWrapper,
+)
 from google.protobuf.internal.containers import (
     RepeatedCompositeFieldContainer,
     RepeatedScalarFieldContainer,
@@ -15,73 +18,26 @@ from typing import (
     Text,
     Tuple,
     cast,
+    NewType,
 )
 
 
-class MethodOpt1(int):
+_MethodOpt1 = NewType('_MethodOpt1', int)
+MethodOpt1: EnumTypeWrapper[_MethodOpt1]
+METHODOPT1_VAL1: _MethodOpt1
+METHODOPT1_VAL2: _MethodOpt1
 
-    @classmethod
-    def Name(cls, number: int) -> bytes: ...
+_AggregateEnum = NewType('_AggregateEnum', int)
+AggregateEnum: EnumTypeWrapper[_AggregateEnum]
+VALUE: _AggregateEnum
 
-    @classmethod
-    def Value(cls, name: bytes) -> MethodOpt1: ...
-
-    @classmethod
-    def keys(cls) -> List[bytes]: ...
-
-    @classmethod
-    def values(cls) -> List[MethodOpt1]: ...
-
-    @classmethod
-    def items(cls) -> List[Tuple[bytes, MethodOpt1]]: ...
-
-
-METHODOPT1_VAL1: MethodOpt1
-METHODOPT1_VAL2: MethodOpt1
-
-
-class AggregateEnum(int):
-
-    @classmethod
-    def Name(cls, number: int) -> bytes: ...
-
-    @classmethod
-    def Value(cls, name: bytes) -> AggregateEnum: ...
-
-    @classmethod
-    def keys(cls) -> List[bytes]: ...
-
-    @classmethod
-    def values(cls) -> List[AggregateEnum]: ...
-
-    @classmethod
-    def items(cls) -> List[Tuple[bytes, AggregateEnum]]: ...
-
-
-VALUE: AggregateEnum
+_TestMessageWithCustomOptions_AnEnum = NewType('_TestMessageWithCustomOptions_AnEnum', int)
 
 
 class TestMessageWithCustomOptions(Message):
-
-    class AnEnum(int):
-
-        @classmethod
-        def Name(cls, number: int) -> bytes: ...
-
-        @classmethod
-        def Value(cls, name: bytes) -> TestMessageWithCustomOptions.AnEnum: ...
-
-        @classmethod
-        def keys(cls) -> List[bytes]: ...
-
-        @classmethod
-        def values(cls) -> List[TestMessageWithCustomOptions.AnEnum]: ...
-
-        @classmethod
-        def items(cls) -> List[Tuple[bytes,
-                                     TestMessageWithCustomOptions.AnEnum]]: ...
-    ANENUM_VAL1: AnEnum
-    ANENUM_VAL2: AnEnum
+    AnEnum: EnumTypeWrapper[_TestMessageWithCustomOptions_AnEnum]
+    ANENUM_VAL1: _TestMessageWithCustomOptions_AnEnum
+    ANENUM_VAL2: _TestMessageWithCustomOptions_AnEnum
     field1 = ...  # type: Text
     oneof_field = ...  # type: int
 
@@ -130,27 +86,13 @@ class CustomOptionFooServerMessage(Message):
     def FromString(cls, s: bytes) -> CustomOptionFooServerMessage: ...
 
 
+_DummyMessageContainingEnum_TestEnumType = NewType('_DummyMessageContainingEnum_TestEnumType', int)
+
+
 class DummyMessageContainingEnum(Message):
-
-    class TestEnumType(int):
-
-        @classmethod
-        def Name(cls, number: int) -> bytes: ...
-
-        @classmethod
-        def Value(cls, name: bytes) -> DummyMessageContainingEnum.TestEnumType: ...
-
-        @classmethod
-        def keys(cls) -> List[bytes]: ...
-
-        @classmethod
-        def values(cls) -> List[DummyMessageContainingEnum.TestEnumType]: ...
-
-        @classmethod
-        def items(cls) -> List[Tuple[bytes,
-                                     DummyMessageContainingEnum.TestEnumType]]: ...
-    TEST_OPTION_ENUM_TYPE1: TestEnumType
-    TEST_OPTION_ENUM_TYPE2: TestEnumType
+    TestEnumType: EnumTypeWrapper[_DummyMessageContainingEnum_TestEnumType]
+    TEST_OPTION_ENUM_TYPE1: _DummyMessageContainingEnum_TestEnumType
+    TEST_OPTION_ENUM_TYPE2: _DummyMessageContainingEnum_TestEnumType
 
     def __init__(self,
                  ) -> None: ...
@@ -367,25 +309,12 @@ class AggregateMessage(Message):
     def FromString(cls, s: bytes) -> AggregateMessage: ...
 
 
+_NestedOptionType_NestedEnum = NewType('_NestedOptionType_NestedEnum', int)
+
+
 class NestedOptionType(Message):
-
-    class NestedEnum(int):
-
-        @classmethod
-        def Name(cls, number: int) -> bytes: ...
-
-        @classmethod
-        def Value(cls, name: bytes) -> NestedOptionType.NestedEnum: ...
-
-        @classmethod
-        def keys(cls) -> List[bytes]: ...
-
-        @classmethod
-        def values(cls) -> List[NestedOptionType.NestedEnum]: ...
-
-        @classmethod
-        def items(cls) -> List[Tuple[bytes, NestedOptionType.NestedEnum]]: ...
-    NESTED_ENUM_VALUE: NestedEnum
+    NestedEnum: EnumTypeWrapper[_NestedOptionType_NestedEnum]
+    NESTED_ENUM_VALUE: _NestedOptionType_NestedEnum
 
     class NestedMessage(Message):
         nested_field = ...  # type: int
@@ -404,59 +333,33 @@ class NestedOptionType(Message):
     def FromString(cls, s: bytes) -> NestedOptionType: ...
 
 
+_OldOptionType_TestEnum = NewType('_OldOptionType_TestEnum', int)
+
+
 class OldOptionType(Message):
-
-    class TestEnum(int):
-
-        @classmethod
-        def Name(cls, number: int) -> bytes: ...
-
-        @classmethod
-        def Value(cls, name: bytes) -> OldOptionType.TestEnum: ...
-
-        @classmethod
-        def keys(cls) -> List[bytes]: ...
-
-        @classmethod
-        def values(cls) -> List[OldOptionType.TestEnum]: ...
-
-        @classmethod
-        def items(cls) -> List[Tuple[bytes, OldOptionType.TestEnum]]: ...
-    OLD_VALUE: TestEnum
-    value = ...  # type: OldOptionType.TestEnum
+    TestEnum: EnumTypeWrapper[_OldOptionType_TestEnum]
+    OLD_VALUE: _OldOptionType_TestEnum
+    value = ...  # type: _OldOptionType_TestEnum
 
     def __init__(self,
-                 value: OldOptionType.TestEnum,
+                 value: _OldOptionType_TestEnum,
                  ) -> None: ...
 
     @classmethod
     def FromString(cls, s: bytes) -> OldOptionType: ...
 
 
+_NewOptionType_TestEnum = NewType('_NewOptionType_TestEnum', int)
+
+
 class NewOptionType(Message):
-
-    class TestEnum(int):
-
-        @classmethod
-        def Name(cls, number: int) -> bytes: ...
-
-        @classmethod
-        def Value(cls, name: bytes) -> NewOptionType.TestEnum: ...
-
-        @classmethod
-        def keys(cls) -> List[bytes]: ...
-
-        @classmethod
-        def values(cls) -> List[NewOptionType.TestEnum]: ...
-
-        @classmethod
-        def items(cls) -> List[Tuple[bytes, NewOptionType.TestEnum]]: ...
-    OLD_VALUE: TestEnum
-    NEW_VALUE: TestEnum
-    value = ...  # type: NewOptionType.TestEnum
+    TestEnum: EnumTypeWrapper[_NewOptionType_TestEnum]
+    OLD_VALUE: _NewOptionType_TestEnum
+    NEW_VALUE: _NewOptionType_TestEnum
+    value = ...  # type: _NewOptionType_TestEnum
 
     def __init__(self,
-                 value: NewOptionType.TestEnum,
+                 value: _NewOptionType_TestEnum,
                  ) -> None: ...
 
     @classmethod

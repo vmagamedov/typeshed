@@ -1,3 +1,6 @@
+from google.protobuf.internal.enum_type_wrapper import (
+    EnumTypeWrapper,
+)
 from google.protobuf.message import (
     Message,
 )
@@ -6,53 +9,20 @@ from typing import (
     Optional,
     Tuple,
     cast,
+    NewType,
 )
 
+_ImportEnum = NewType('_ImportEnum', int)
+ImportEnum: EnumTypeWrapper[_ImportEnum]
+IMPORT_FOO: _ImportEnum
+IMPORT_BAR: _ImportEnum
+IMPORT_BAZ: _ImportEnum
 
-class ImportEnum(int):
-
-    @classmethod
-    def Name(cls, number: int) -> bytes: ...
-
-    @classmethod
-    def Value(cls, name: bytes) -> ImportEnum: ...
-
-    @classmethod
-    def keys(cls) -> List[bytes]: ...
-
-    @classmethod
-    def values(cls) -> List[ImportEnum]: ...
-
-    @classmethod
-    def items(cls) -> List[Tuple[bytes, ImportEnum]]: ...
-
-
-IMPORT_FOO: ImportEnum
-IMPORT_BAR: ImportEnum
-IMPORT_BAZ: ImportEnum
-
-
-class ImportEnumForMap(int):
-
-    @classmethod
-    def Name(cls, number: int) -> bytes: ...
-
-    @classmethod
-    def Value(cls, name: bytes) -> ImportEnumForMap: ...
-
-    @classmethod
-    def keys(cls) -> List[bytes]: ...
-
-    @classmethod
-    def values(cls) -> List[ImportEnumForMap]: ...
-
-    @classmethod
-    def items(cls) -> List[Tuple[bytes, ImportEnumForMap]]: ...
-
-
-UNKNOWN: ImportEnumForMap
-FOO: ImportEnumForMap
-BAR: ImportEnumForMap
+_ImportEnumForMap = NewType('_ImportEnumForMap', int)
+ImportEnumForMap: EnumTypeWrapper[_ImportEnumForMap]
+UNKNOWN: _ImportEnumForMap
+FOO: _ImportEnumForMap
+BAR: _ImportEnumForMap
 
 
 class ImportMessage(Message):

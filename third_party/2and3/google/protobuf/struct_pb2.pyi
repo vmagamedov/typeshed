@@ -1,3 +1,6 @@
+from google.protobuf.internal.enum_type_wrapper import (
+    EnumTypeWrapper,
+)
 from google.protobuf.internal.containers import (
     RepeatedCompositeFieldContainer,
 )
@@ -15,27 +18,13 @@ from typing import (
     Text,
     Tuple,
     cast,
+    NewType,
 )
 
 
-class NullValue(int):
-    @classmethod
-    def Name(cls, number: int) -> bytes: ...
-
-    @classmethod
-    def Value(cls, name: bytes) -> NullValue: ...
-
-    @classmethod
-    def keys(cls) -> List[bytes]: ...
-
-    @classmethod
-    def values(cls) -> List[NullValue]: ...
-
-    @classmethod
-    def items(cls) -> List[Tuple[bytes, NullValue]]: ...
-
-
-NULL_VALUE: NullValue
+_NullValue = NewType('_NullValue', int)
+NullValue: EnumTypeWrapper[_NullValue]
+NULL_VALUE: _NullValue
 
 
 class Struct(Message, well_known_types.Struct):
@@ -65,7 +54,7 @@ class Struct(Message, well_known_types.Struct):
 
 
 class _Value(Message):
-    null_value = ...  # type: NullValue
+    null_value = ...  # type: _NullValue
     number_value = ...  # type: float
     string_value = ...  # type: Text
     bool_value = ...  # type: bool
@@ -77,7 +66,7 @@ class _Value(Message):
     def list_value(self) -> ListValue: ...
 
     def __init__(self,
-                 null_value: Optional[NullValue] = ...,
+                 null_value: Optional[_NullValue] = ...,
                  number_value: Optional[float] = ...,
                  string_value: Optional[Text] = ...,
                  bool_value: Optional[bool] = ...,

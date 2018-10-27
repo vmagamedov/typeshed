@@ -7,6 +7,9 @@ from google.protobuf.duration_pb2 import (
 from google.protobuf.field_mask_pb2 import (
     FieldMask,
 )
+from google.protobuf.internal.enum_type_wrapper import (
+    EnumTypeWrapper,
+)
 from google.protobuf.internal.containers import (
     RepeatedCompositeFieldContainer,
     RepeatedScalarFieldContainer,
@@ -41,52 +44,25 @@ from typing import (
     Text,
     Tuple,
     cast,
+    NewType,
 )
 
 
-class ForeignEnum(int):
+_ForeignEnum = NewType('_ForeignEnum', int)
+ForeignEnum: EnumTypeWrapper[_ForeignEnum]
+FOREIGN_FOO: _ForeignEnum
+FOREIGN_BAR: _ForeignEnum
+FOREIGN_BAZ: _ForeignEnum
 
-    @classmethod
-    def Name(cls, number: int) -> bytes: ...
-
-    @classmethod
-    def Value(cls, name: bytes) -> ForeignEnum: ...
-
-    @classmethod
-    def keys(cls) -> List[bytes]: ...
-
-    @classmethod
-    def values(cls) -> List[ForeignEnum]: ...
-
-    @classmethod
-    def items(cls) -> List[Tuple[bytes, ForeignEnum]]: ...
-FOREIGN_FOO: ForeignEnum
-FOREIGN_BAR: ForeignEnum
-FOREIGN_BAZ: ForeignEnum
+_TestAllTypesProto3_NestedEnum = NewType('_TestAllTypesProto3_NestedEnum', int)
 
 
 class TestAllTypesProto3(Message):
-
-    class NestedEnum(int):
-
-        @classmethod
-        def Name(cls, number: int) -> bytes: ...
-
-        @classmethod
-        def Value(cls, name: bytes) -> TestAllTypesProto3.NestedEnum: ...
-
-        @classmethod
-        def keys(cls) -> List[bytes]: ...
-
-        @classmethod
-        def values(cls) -> List[TestAllTypesProto3.NestedEnum]: ...
-
-        @classmethod
-        def items(cls) -> List[Tuple[bytes, TestAllTypesProto3.NestedEnum]]: ...
-    FOO: NestedEnum
-    BAR: NestedEnum
-    BAZ: NestedEnum
-    NEG: NestedEnum
+    NestedEnum: EnumTypeWrapper[_TestAllTypesProto3_NestedEnum]
+    FOO: _TestAllTypesProto3_NestedEnum
+    BAR: _TestAllTypesProto3_NestedEnum
+    BAZ: _TestAllTypesProto3_NestedEnum
+    NEG: _TestAllTypesProto3_NestedEnum
 
     class NestedMessage(Message):
         a = ...  # type: int
@@ -312,11 +288,11 @@ class TestAllTypesProto3(Message):
 
     class MapStringNestedEnumEntry(Message):
         key = ...  # type: Text
-        value = ...  # type: TestAllTypesProto3.NestedEnum
+        value = ...  # type: _TestAllTypesProto3_NestedEnum
 
         def __init__(self,
                      key: Optional[Text] = ...,
-                     value: Optional[TestAllTypesProto3.NestedEnum] = ...,
+                     value: Optional[_TestAllTypesProto3_NestedEnum] = ...,
                      ) -> None: ...
 
         @classmethod
@@ -324,11 +300,11 @@ class TestAllTypesProto3(Message):
 
     class MapStringForeignEnumEntry(Message):
         key = ...  # type: Text
-        value = ...  # type: ForeignEnum
+        value = ...  # type: _ForeignEnum
 
         def __init__(self,
                      key: Optional[Text] = ...,
-                     value: Optional[ForeignEnum] = ...,
+                     value: Optional[_ForeignEnum] = ...,
                      ) -> None: ...
 
         @classmethod
@@ -348,8 +324,8 @@ class TestAllTypesProto3(Message):
     optional_bool = ...  # type: bool
     optional_string = ...  # type: Text
     optional_bytes = ...  # type: bytes
-    optional_nested_enum = ...  # type: TestAllTypesProto3.NestedEnum
-    optional_foreign_enum = ...  # type: ForeignEnum
+    optional_nested_enum = ...  # type: _TestAllTypesProto3_NestedEnum
+    optional_foreign_enum = ...  # type: _ForeignEnum
     optional_string_piece = ...  # type: Text
     optional_cord = ...  # type: Text
     repeated_int32 = ...  # type: RepeatedScalarFieldContainer[int]
@@ -367,8 +343,8 @@ class TestAllTypesProto3(Message):
     repeated_bool = ...  # type: RepeatedScalarFieldContainer[bool]
     repeated_string = ...  # type: RepeatedScalarFieldContainer[Text]
     repeated_bytes = ...  # type: RepeatedScalarFieldContainer[bytes]
-    repeated_nested_enum = ...  # type: RepeatedScalarFieldContainer[TestAllTypesProto3.NestedEnum]
-    repeated_foreign_enum = ...  # type: RepeatedScalarFieldContainer[ForeignEnum]
+    repeated_nested_enum = ...  # type: RepeatedScalarFieldContainer[_TestAllTypesProto3_NestedEnum]
+    repeated_foreign_enum = ...  # type: RepeatedScalarFieldContainer[_ForeignEnum]
     repeated_string_piece = ...  # type: RepeatedScalarFieldContainer[Text]
     repeated_cord = ...  # type: RepeatedScalarFieldContainer[Text]
     oneof_uint32 = ...  # type: int
@@ -378,7 +354,7 @@ class TestAllTypesProto3(Message):
     oneof_uint64 = ...  # type: int
     oneof_float = ...  # type: float
     oneof_double = ...  # type: float
-    oneof_enum = ...  # type: TestAllTypesProto3.NestedEnum
+    oneof_enum = ...  # type: _TestAllTypesProto3_NestedEnum
     fieldname1 = ...  # type: int
     field_name2 = ...  # type: int
     _field_name3 = ...  # type: int
@@ -465,10 +441,10 @@ class TestAllTypesProto3(Message):
     def map_string_foreign_message(self) -> MutableMapping[Text, ForeignMessage]: ...
 
     @property
-    def map_string_nested_enum(self) -> MutableMapping[Text, TestAllTypesProto3.NestedEnum]: ...
+    def map_string_nested_enum(self) -> MutableMapping[Text, _TestAllTypesProto3_NestedEnum]: ...
 
     @property
-    def map_string_foreign_enum(self) -> MutableMapping[Text, ForeignEnum]: ...
+    def map_string_foreign_enum(self) -> MutableMapping[Text, _ForeignEnum]: ...
 
     @property
     def oneof_nested_message(self) -> TestAllTypesProto3.NestedMessage: ...
@@ -581,8 +557,8 @@ class TestAllTypesProto3(Message):
                  optional_bytes: Optional[bytes] = ...,
                  optional_nested_message: Optional[TestAllTypesProto3.NestedMessage] = ...,
                  optional_foreign_message: Optional[ForeignMessage] = ...,
-                 optional_nested_enum: Optional[TestAllTypesProto3.NestedEnum] = ...,
-                 optional_foreign_enum: Optional[ForeignEnum] = ...,
+                 optional_nested_enum: Optional[_TestAllTypesProto3_NestedEnum] = ...,
+                 optional_foreign_enum: Optional[_ForeignEnum] = ...,
                  optional_string_piece: Optional[Text] = ...,
                  optional_cord: Optional[Text] = ...,
                  recursive_message: Optional[TestAllTypesProto3] = ...,
@@ -603,8 +579,8 @@ class TestAllTypesProto3(Message):
                  repeated_bytes: Optional[Iterable[bytes]] = ...,
                  repeated_nested_message: Optional[Iterable[TestAllTypesProto3.NestedMessage]] = ...,
                  repeated_foreign_message: Optional[Iterable[ForeignMessage]] = ...,
-                 repeated_nested_enum: Optional[Iterable[TestAllTypesProto3.NestedEnum]] = ...,
-                 repeated_foreign_enum: Optional[Iterable[ForeignEnum]] = ...,
+                 repeated_nested_enum: Optional[Iterable[_TestAllTypesProto3_NestedEnum]] = ...,
+                 repeated_foreign_enum: Optional[Iterable[_ForeignEnum]] = ...,
                  repeated_string_piece: Optional[Iterable[Text]] = ...,
                  repeated_cord: Optional[Iterable[Text]] = ...,
                  map_int32_int32: Optional[Mapping[int, int]]=...,
@@ -624,8 +600,8 @@ class TestAllTypesProto3(Message):
                  map_string_bytes: Optional[Mapping[Text, bytes]]=...,
                  map_string_nested_message: Optional[Mapping[Text, TestAllTypesProto3.NestedMessage]]=...,
                  map_string_foreign_message: Optional[Mapping[Text, ForeignMessage]]=...,
-                 map_string_nested_enum: Optional[Mapping[Text, TestAllTypesProto3.NestedEnum]]=...,
-                 map_string_foreign_enum: Optional[Mapping[Text, ForeignEnum]]=...,
+                 map_string_nested_enum: Optional[Mapping[Text, _TestAllTypesProto3_NestedEnum]]=...,
+                 map_string_foreign_enum: Optional[Mapping[Text, _ForeignEnum]]=...,
                  oneof_uint32: Optional[int] = ...,
                  oneof_nested_message: Optional[TestAllTypesProto3.NestedMessage] = ...,
                  oneof_string: Optional[Text] = ...,
@@ -634,7 +610,7 @@ class TestAllTypesProto3(Message):
                  oneof_uint64: Optional[int] = ...,
                  oneof_float: Optional[float] = ...,
                  oneof_double: Optional[float] = ...,
-                 oneof_enum: Optional[TestAllTypesProto3.NestedEnum] = ...,
+                 oneof_enum: Optional[_TestAllTypesProto3_NestedEnum] = ...,
                  optional_bool_wrapper: Optional[BoolValue] = ...,
                  optional_int32_wrapper: Optional[Int32Value] = ...,
                  optional_int64_wrapper: Optional[Int64Value] = ...,

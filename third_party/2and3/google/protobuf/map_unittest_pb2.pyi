@@ -1,3 +1,6 @@
+from google.protobuf.internal.enum_type_wrapper import (
+    EnumTypeWrapper,
+)
 from google.protobuf.message import (
     Message,
 )
@@ -17,30 +20,15 @@ from typing import (
     Text,
     Tuple,
     cast,
+    NewType,
 )
 
 
-class MapEnum(int):
-
-    @classmethod
-    def Name(cls, number: int) -> bytes: ...
-
-    @classmethod
-    def Value(cls, name: bytes) -> MapEnum: ...
-
-    @classmethod
-    def keys(cls) -> List[bytes]: ...
-
-    @classmethod
-    def values(cls) -> List[MapEnum]: ...
-
-    @classmethod
-    def items(cls) -> List[Tuple[bytes, MapEnum]]: ...
-
-
-MAP_ENUM_FOO: MapEnum
-MAP_ENUM_BAR: MapEnum
-MAP_ENUM_BAZ: MapEnum
+_MapEnum = NewType('_MapEnum', int)
+MapEnum: EnumTypeWrapper[_MapEnum]
+MAP_ENUM_FOO: _MapEnum
+MAP_ENUM_BAR: _MapEnum
+MAP_ENUM_BAZ: _MapEnum
 
 
 class TestMap(Message):
@@ -227,11 +215,11 @@ class TestMap(Message):
 
     class MapInt32EnumEntry(Message):
         key = ...  # type: int
-        value = ...  # type: MapEnum
+        value = ...  # type: _MapEnum
 
         def __init__(self,
                      key: Optional[int] = ...,
-                     value: Optional[MapEnum] = ...,
+                     value: Optional[_MapEnum] = ...,
                      ) -> None: ...
 
         @classmethod
@@ -326,7 +314,7 @@ class TestMap(Message):
     def map_int32_bytes(self) -> MutableMapping[int, bytes]: ...
 
     @property
-    def map_int32_enum(self) -> MutableMapping[int, MapEnum]: ...
+    def map_int32_enum(self) -> MutableMapping[int, _MapEnum]: ...
 
     @property
     def map_int32_foreign_message(
@@ -355,7 +343,7 @@ class TestMap(Message):
                  map_bool_bool: Optional[Mapping[bool, bool]]=...,
                  map_string_string: Optional[Mapping[Text, Text]]=...,
                  map_int32_bytes: Optional[Mapping[int, bytes]]=...,
-                 map_int32_enum: Optional[Mapping[int, MapEnum]]=...,
+                 map_int32_enum: Optional[Mapping[int, _MapEnum]]=...,
                  map_int32_foreign_message: Optional[Mapping[int, ForeignMessage1]]=...,
                  map_string_foreign_message: Optional[Mapping[Text, ForeignMessage1]]=...,
                  map_int32_all_types: Optional[Mapping[int, TestAllTypes]]=...,
@@ -660,11 +648,11 @@ class TestArenaMap(Message):
 
     class MapInt32EnumEntry(Message):
         key = ...  # type: int
-        value = ...  # type: MapEnum
+        value = ...  # type: _MapEnum
 
         def __init__(self,
                      key: Optional[int] = ...,
-                     value: Optional[MapEnum] = ...,
+                     value: Optional[_MapEnum] = ...,
                      ) -> None: ...
 
         @classmethod
@@ -746,7 +734,7 @@ class TestArenaMap(Message):
     def map_int32_bytes(self) -> MutableMapping[int, bytes]: ...
 
     @property
-    def map_int32_enum(self) -> MutableMapping[int, MapEnum]: ...
+    def map_int32_enum(self) -> MutableMapping[int, _MapEnum]: ...
 
     @property
     def map_int32_foreign_message(
@@ -772,7 +760,7 @@ class TestArenaMap(Message):
                  map_bool_bool: Optional[Mapping[bool, bool]]=...,
                  map_string_string: Optional[Mapping[Text, Text]]=...,
                  map_int32_bytes: Optional[Mapping[int, bytes]]=...,
-                 map_int32_enum: Optional[Mapping[int, MapEnum]]=...,
+                 map_int32_enum: Optional[Mapping[int, _MapEnum]]=...,
                  map_int32_foreign_message: Optional[Mapping[int, ForeignMessage1]]=...,
                  map_int32_foreign_message_no_arena: Optional[Mapping[int, ForeignMessage]]=...,
                  ) -> None: ...
@@ -781,26 +769,12 @@ class TestArenaMap(Message):
     def FromString(cls, s: bytes) -> TestArenaMap: ...
 
 
+_MessageContainingEnumCalledType_Type = NewType('_MessageContainingEnumCalledType_Type', int)
+
+
 class MessageContainingEnumCalledType(Message):
-
-    class Type(int):
-
-        @classmethod
-        def Name(cls, number: int) -> bytes: ...
-
-        @classmethod
-        def Value(cls, name: bytes) -> MessageContainingEnumCalledType.Type: ...
-
-        @classmethod
-        def keys(cls) -> List[bytes]: ...
-
-        @classmethod
-        def values(cls) -> List[MessageContainingEnumCalledType.Type]: ...
-
-        @classmethod
-        def items(cls) -> List[Tuple[bytes,
-                                     MessageContainingEnumCalledType.Type]]: ...
-    TYPE_FOO: Type
+    Type: EnumTypeWrapper[_MessageContainingEnumCalledType_Type]
+    TYPE_FOO: _MessageContainingEnumCalledType_Type
 
     class TypeEntry(Message):
         key = ...  # type: Text

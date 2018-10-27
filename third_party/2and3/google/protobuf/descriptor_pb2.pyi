@@ -1,3 +1,6 @@
+from google.protobuf.internal.enum_type_wrapper import (
+    EnumTypeWrapper,
+)
 from google.protobuf.internal.containers import (
     RepeatedCompositeFieldContainer,
     RepeatedScalarFieldContainer,
@@ -12,6 +15,7 @@ from typing import (
     Text,
     Tuple,
     cast,
+    NewType,
 )
 
 
@@ -171,66 +175,38 @@ class ExtensionRangeOptions(Message):
     def FromString(cls, s: bytes) -> ExtensionRangeOptions: ...
 
 
+_FieldDescriptorProto_Type = NewType('_FieldDescriptorProto_Type', int)
+_FieldDescriptorProto_Label = NewType('_FieldDescriptorProto_Label', int)
+
+
 class FieldDescriptorProto(Message):
-
-    class Type(int):
-
-        @classmethod
-        def Name(cls, number: int) -> bytes: ...
-
-        @classmethod
-        def Value(cls, name: bytes) -> FieldDescriptorProto.Type: ...
-
-        @classmethod
-        def keys(cls) -> List[bytes]: ...
-
-        @classmethod
-        def values(cls) -> List[FieldDescriptorProto.Type]: ...
-
-        @classmethod
-        def items(cls) -> List[Tuple[bytes, FieldDescriptorProto.Type]]: ...
-    TYPE_DOUBLE: Type
-    TYPE_FLOAT: Type
-    TYPE_INT64: Type
-    TYPE_UINT64: Type
-    TYPE_INT32: Type
-    TYPE_FIXED64: Type
-    TYPE_FIXED32: Type
-    TYPE_BOOL: Type
-    TYPE_STRING: Type
-    TYPE_GROUP: Type
-    TYPE_MESSAGE: Type
-    TYPE_BYTES: Type
-    TYPE_UINT32: Type
-    TYPE_ENUM: Type
-    TYPE_SFIXED32: Type
-    TYPE_SFIXED64: Type
-    TYPE_SINT32: Type
-    TYPE_SINT64: Type
-
-    class Label(int):
-
-        @classmethod
-        def Name(cls, number: int) -> bytes: ...
-
-        @classmethod
-        def Value(cls, name: bytes) -> FieldDescriptorProto.Label: ...
-
-        @classmethod
-        def keys(cls) -> List[bytes]: ...
-
-        @classmethod
-        def values(cls) -> List[FieldDescriptorProto.Label]: ...
-
-        @classmethod
-        def items(cls) -> List[Tuple[bytes, FieldDescriptorProto.Label]]: ...
-    LABEL_OPTIONAL: Label
-    LABEL_REQUIRED: Label
-    LABEL_REPEATED: Label
+    Type: EnumTypeWrapper[_FieldDescriptorProto_Type]
+    TYPE_DOUBLE: _FieldDescriptorProto_Type
+    TYPE_FLOAT: _FieldDescriptorProto_Type
+    TYPE_INT64: _FieldDescriptorProto_Type
+    TYPE_UINT64: _FieldDescriptorProto_Type
+    TYPE_INT32: _FieldDescriptorProto_Type
+    TYPE_FIXED64: _FieldDescriptorProto_Type
+    TYPE_FIXED32: _FieldDescriptorProto_Type
+    TYPE_BOOL: _FieldDescriptorProto_Type
+    TYPE_STRING: _FieldDescriptorProto_Type
+    TYPE_GROUP: _FieldDescriptorProto_Type
+    TYPE_MESSAGE: _FieldDescriptorProto_Type
+    TYPE_BYTES: _FieldDescriptorProto_Type
+    TYPE_UINT32: _FieldDescriptorProto_Type
+    TYPE_ENUM: _FieldDescriptorProto_Type
+    TYPE_SFIXED32: _FieldDescriptorProto_Type
+    TYPE_SFIXED64: _FieldDescriptorProto_Type
+    TYPE_SINT32: _FieldDescriptorProto_Type
+    TYPE_SINT64: _FieldDescriptorProto_Type
+    Label: EnumTypeWrapper[_FieldDescriptorProto_Label]
+    LABEL_OPTIONAL: _FieldDescriptorProto_Label
+    LABEL_REQUIRED: _FieldDescriptorProto_Label
+    LABEL_REPEATED: _FieldDescriptorProto_Label
     name = ...  # type: Text
     number = ...  # type: int
-    label = ...  # type: FieldDescriptorProto.Label
-    type = ...  # type: FieldDescriptorProto.Type
+    label = ...  # type: _FieldDescriptorProto_Label
+    type = ...  # type: _FieldDescriptorProto_Type
     type_name = ...  # type: Text
     extendee = ...  # type: Text
     default_value = ...  # type: Text
@@ -243,8 +219,8 @@ class FieldDescriptorProto(Message):
     def __init__(self,
                  name: Optional[Text] = ...,
                  number: Optional[int] = ...,
-                 label: Optional[FieldDescriptorProto.Label] = ...,
-                 type: Optional[FieldDescriptorProto.Type] = ...,
+                 label: Optional[_FieldDescriptorProto_Label] = ...,
+                 type: Optional[_FieldDescriptorProto_Type] = ...,
                  type_name: Optional[Text] = ...,
                  extendee: Optional[Text] = ...,
                  default_value: Optional[Text] = ...,
@@ -372,33 +348,20 @@ class MethodDescriptorProto(Message):
     def FromString(cls, s: bytes) -> MethodDescriptorProto: ...
 
 
+_FileOptions_OptimizeMode = NewType('_FileOptions_OptimizeMode', int)
+
+
 class FileOptions(Message):
-
-    class OptimizeMode(int):
-
-        @classmethod
-        def Name(cls, number: int) -> bytes: ...
-
-        @classmethod
-        def Value(cls, name: bytes) -> FileOptions.OptimizeMode: ...
-
-        @classmethod
-        def keys(cls) -> List[bytes]: ...
-
-        @classmethod
-        def values(cls) -> List[FileOptions.OptimizeMode]: ...
-
-        @classmethod
-        def items(cls) -> List[Tuple[bytes, FileOptions.OptimizeMode]]: ...
-    SPEED: OptimizeMode
-    CODE_SIZE: OptimizeMode
-    LITE_RUNTIME: OptimizeMode
+    OptimizeMode: EnumTypeWrapper[_FileOptions_OptimizeMode]
+    SPEED: _FileOptions_OptimizeMode
+    CODE_SIZE: _FileOptions_OptimizeMode
+    LITE_RUNTIME: _FileOptions_OptimizeMode
     java_package = ...  # type: Text
     java_outer_classname = ...  # type: Text
     java_multiple_files = ...  # type: bool
     java_generate_equals_and_hash = ...  # type: bool
     java_string_check_utf8 = ...  # type: bool
-    optimize_for = ...  # type: FileOptions.OptimizeMode
+    optimize_for = ...  # type: _FileOptions_OptimizeMode
     go_package = ...  # type: Text
     cc_generic_services = ...  # type: bool
     java_generic_services = ...  # type: bool
@@ -422,7 +385,7 @@ class FileOptions(Message):
                  java_multiple_files: Optional[bool] = ...,
                  java_generate_equals_and_hash: Optional[bool] = ...,
                  java_string_check_utf8: Optional[bool] = ...,
-                 optimize_for: Optional[FileOptions.OptimizeMode] = ...,
+                 optimize_for: Optional[_FileOptions_OptimizeMode] = ...,
                  go_package: Optional[Text] = ...,
                  cc_generic_services: Optional[bool] = ...,
                  java_generic_services: Optional[bool] = ...,
@@ -464,50 +427,22 @@ class MessageOptions(Message):
     def FromString(cls, s: bytes) -> MessageOptions: ...
 
 
+_FieldOptions_CType = NewType('_FieldOptions_CType', int)
+_FieldOptions_JSType = NewType('_FieldOptions_JSType', int)
+
+
 class FieldOptions(Message):
-
-    class CType(int):
-
-        @classmethod
-        def Name(cls, number: int) -> bytes: ...
-
-        @classmethod
-        def Value(cls, name: bytes) -> FieldOptions.CType: ...
-
-        @classmethod
-        def keys(cls) -> List[bytes]: ...
-
-        @classmethod
-        def values(cls) -> List[FieldOptions.CType]: ...
-
-        @classmethod
-        def items(cls) -> List[Tuple[bytes, FieldOptions.CType]]: ...
-    STRING: CType
-    CORD: CType
-    STRING_PIECE: CType
-
-    class JSType(int):
-
-        @classmethod
-        def Name(cls, number: int) -> bytes: ...
-
-        @classmethod
-        def Value(cls, name: bytes) -> FieldOptions.JSType: ...
-
-        @classmethod
-        def keys(cls) -> List[bytes]: ...
-
-        @classmethod
-        def values(cls) -> List[FieldOptions.JSType]: ...
-
-        @classmethod
-        def items(cls) -> List[Tuple[bytes, FieldOptions.JSType]]: ...
-    JS_NORMAL: JSType
-    JS_STRING: JSType
-    JS_NUMBER: JSType
-    ctype = ...  # type: FieldOptions.CType
+    CType: EnumTypeWrapper[_FieldOptions_CType]
+    STRING: _FieldOptions_CType
+    CORD: _FieldOptions_CType
+    STRING_PIECE: _FieldOptions_CType
+    JSType: EnumTypeWrapper[_FieldOptions_JSType]
+    JS_NORMAL: _FieldOptions_JSType
+    JS_STRING: _FieldOptions_JSType
+    JS_NUMBER: _FieldOptions_JSType
+    ctype = ...  # type: _FieldOptions_CType
     packed = ...  # type: bool
-    jstype = ...  # type: FieldOptions.JSType
+    jstype = ...  # type: _FieldOptions_JSType
     lazy = ...  # type: bool
     deprecated = ...  # type: bool
     weak = ...  # type: bool
@@ -517,9 +452,9 @@ class FieldOptions(Message):
         self) -> RepeatedCompositeFieldContainer[UninterpretedOption]: ...
 
     def __init__(self,
-                 ctype: Optional[FieldOptions.CType] = ...,
+                 ctype: Optional[_FieldOptions_CType] = ...,
                  packed: Optional[bool] = ...,
-                 jstype: Optional[FieldOptions.JSType] = ...,
+                 jstype: Optional[_FieldOptions_JSType] = ...,
                  lazy: Optional[bool] = ...,
                  deprecated: Optional[bool] = ...,
                  weak: Optional[bool] = ...,
@@ -594,29 +529,16 @@ class ServiceOptions(Message):
     def FromString(cls, s: bytes) -> ServiceOptions: ...
 
 
+_MethodOptions_IdempotencyLevel = NewType('_MethodOptions_IdempotencyLevel', int)
+
+
 class MethodOptions(Message):
-
-    class IdempotencyLevel(int):
-
-        @classmethod
-        def Name(cls, number: int) -> bytes: ...
-
-        @classmethod
-        def Value(cls, name: bytes) -> MethodOptions.IdempotencyLevel: ...
-
-        @classmethod
-        def keys(cls) -> List[bytes]: ...
-
-        @classmethod
-        def values(cls) -> List[MethodOptions.IdempotencyLevel]: ...
-
-        @classmethod
-        def items(cls) -> List[Tuple[bytes, MethodOptions.IdempotencyLevel]]: ...
-    IDEMPOTENCY_UNKNOWN: IdempotencyLevel
-    NO_SIDE_EFFECTS: IdempotencyLevel
-    IDEMPOTENT: IdempotencyLevel
+    IdempotencyLevel: EnumTypeWrapper[_MethodOptions_IdempotencyLevel]
+    IDEMPOTENCY_UNKNOWN: _MethodOptions_IdempotencyLevel
+    NO_SIDE_EFFECTS: _MethodOptions_IdempotencyLevel
+    IDEMPOTENT: _MethodOptions_IdempotencyLevel
     deprecated = ...  # type: bool
-    idempotency_level = ...  # type: MethodOptions.IdempotencyLevel
+    idempotency_level = ...  # type: _MethodOptions_IdempotencyLevel
 
     @property
     def uninterpreted_option(
@@ -624,7 +546,7 @@ class MethodOptions(Message):
 
     def __init__(self,
                  deprecated: Optional[bool] = ...,
-                 idempotency_level: Optional[MethodOptions.IdempotencyLevel] = ...,
+                 idempotency_level: Optional[_MethodOptions_IdempotencyLevel] = ...,
                  uninterpreted_option: Optional[Iterable[UninterpretedOption]] = ...,
                  ) -> None: ...
 
